@@ -4,13 +4,21 @@ services:
   - docker
 
 before_start:
-  - docker build -t rlmf82/complex-client -f ./client/Dockerfile.dev ./docker-react
+  - docker build -t rlmf82/docker-complex -f ./client/Dockerfile.dev ./docker-react
   
 script:
-  - docker run -e CI=true rlmf82/complex-client npm run test -- --coverage
+  - docker run -e CI=true rlmf82/docker-complex npm run test -- --coverage
 
 after_success:
   - docker build -t rlmf82/docker-complex ./docker-react
   - docker build -t rlmf82/docker-nginx ./nginx
   - docker build -t rlmf82/docker-server ./server
   - docker build -t rlmf82/docker-worker ./worker
+
+  # Log docker
+  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push images to docker hub
+  - docker push rlmf82/docker-complex
+  - docker push rlmf82/docker-nginx
+  - docker push rlmf82/docker-server
+  - docker push rlmf82/docker-worker
