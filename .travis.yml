@@ -16,7 +16,7 @@ after_success:
   - docker build -t rlmf82/docker-worker ./worker
 
   # Log docker
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # push images to docker hub
   - docker push rlmf82/docker-complex
   - docker push rlmf82/docker-nginx
