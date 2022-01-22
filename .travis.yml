@@ -1,0 +1,16 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_start:
+  - docker build -t rlmf82/complex-client -f ./client/Dockerfile.dev ./docker-react
+  
+script:
+  - docker run -e CI=true rlmf82/complex-client npm run test -- --coverage
+
+after_success:
+  - docker build -t rlmf82/docker-complex ./docker-react
+  - docker build -t rlmf82/docker-nginx ./nginx
+  - docker build -t rlmf82/docker-server ./server
+  - docker build -t rlmf82/docker-worker ./worker
