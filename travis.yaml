@@ -4,7 +4,7 @@ services:
   - docker
 
 before_start:
-  - docker build -t rlmf82/docker-complex -f ./client/Dockerfile.dev ./docker-react
+  - docker build -t rlmf82/docker-complex -f ./docker-react/Dockerfile.dev ./docker-react
   
 script:
   - docker run -e CI=true rlmf82/docker-complex npm run test -- --coverage
